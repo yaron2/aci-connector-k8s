@@ -29,6 +29,8 @@ export async function Synchronize(client: api.Core_v1Api, startTime: Date, rsrcC
             let cPorts = new Array<Object>();
             for (let container of pod.spec.containers) {
                 let ports = new Array<Object>();
+                let envs = new Array<Object>();
+                let commands = new Array<String>();
                 if (container.ports) {
                     for (let port of container.ports) {
                         ports.push({
@@ -48,6 +50,19 @@ export async function Synchronize(client: api.Core_v1Api, startTime: Date, rsrcC
                         port: 80
                     });
                 }
+                if (container.env) {
+                    for (let env of container.env) {
+                        envs.push({
+                            name: env.name,
+                            value: env.value
+                        })
+                    }
+                }
+                if (container.command) {
+                    for (let command of container.command) {
+                        commands.push(command)
+                    }
+                }
                 containers.push(
                     {
                         name: container.name,
@@ -59,7 +74,9 @@ export async function Synchronize(client: api.Core_v1Api, startTime: Date, rsrcC
                                     cpu: 1,
                                     memoryInGB: 1.5
                                 }
-                            }
+                            },
+                            command: commands,
+                            environmentVariables: envs
                         }
                     }
                 );
