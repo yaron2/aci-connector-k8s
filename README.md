@@ -91,13 +91,13 @@ Edit the `examples/aci-connector.yaml` and input environment variables using the
 $ kubectl create -f examples/aci-connector.yaml 
 deployment "aci-connector" created
 
-s$ kubectl get nodes -w
+$ kubectl get nodes -w
 NAME                        STATUS                     AGE       VERSION
 aci-connector               Ready                      3s        1.6.6
 k8s-agentpool1-31868821-0   Ready                      5d        v1.7.0
 k8s-agentpool1-31868821-1   Ready                      5d        v1.7.0
 k8s-agentpool1-31868821-2   Ready                      5d        v1.7.0
-sk8s-master-31868821-0       Ready,SchedulingDisabled   5d        v1.7.0
+k8s-master-31868821-0       Ready,SchedulingDisabled   5d        v1.7.0
 ```
 
 ### Install the NGINX example
