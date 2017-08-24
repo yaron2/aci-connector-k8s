@@ -27,9 +27,41 @@ export async function Synchronize(client: api.Core_v1Api, startTime: Date, rsrcC
             }
             let containers = new Array<Object>();
             let cPorts = new Array<Object>();
+
+            let imageRegistryCredentials = new Array<Object>();
+            
+            if (pod.spec.imagePullSecrets != null) {
+                let secrets = await client.listNamespacedSecret('default');
+                for (let secret of secrets.body.items) {
+                    if (secret.metadata.name == pod.spec.imagePullSecrets.name && secret.metadata.type == "kubernetes.io/dockercfg") {
+                        /* 
+                            Grab secret data {"yourprivateregistry.com":{"username":"janedoe","password":"xxxxxxxxxxx","email":"jdoe@example.com","auth":"c3R...zE2"}}
+                            base64 -D
+                            Repo, username and password
+                            
+                            Credential json blob for ACI
+                            "imageRegistryCredentials": [
+                                {
+                                "server": "imageRegistryLoginServer",
+                                "username": "imageRegistryUsername",
+                                "password": "imageRegistryPassword"
+                                }
+                        ]
+                        */
+                        imageRegistryCredentials.push(
+                            {
+                                server: data.repo,
+                                username: data.username,
+                                password: data.password 
+                            }
+                        );
+                    }
+                }
+            }
+            
             for (let container of pod.spec.containers) {
                 let ports = new Array<Object>();
-                let envs = new Array<Object>();
+                let envs = new Array<Object>();                
                 let commands = new Array<String>();
                 if (container.ports) {
                     for (let port of container.ports) {
@@ -94,7 +126,8 @@ export async function Synchronize(client: api.Core_v1Api, startTime: Date, rsrcC
                 tags: {
                     "orchestrator": "kubernetes"
                 },
-                location: region
+                location: region,
+                imageRegistryCredentials: imageRegistryCredentials,
             }
             await rsrcClient.resources.createOrUpdate(resourceGroup,
                 "Microsoft.ContainerInstance", "",
