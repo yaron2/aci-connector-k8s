@@ -19,8 +19,8 @@ Once the connector is registered as a node named `aci-connector`, you can use `n
 
 ## Requirements
 
- 1. A working `az` command-line client
- 2. A Kubernetes cluster with a working `kubectl`
+ 1. A working `az` command-line client - [Install azure cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) 
+ 2. A Kubernetes cluster with a working `kubectl` - [Set up a Kubernetes cluster on Azure](https://docs.microsoft.com/en-us/azure/container-service/kubernetes/container-service-kubernetes-walkthrough)
 
 ## Quickstart
 
@@ -132,7 +132,7 @@ toleration.
 To use this Pod, you can simply:
 
 ```sh
-$ kubectl create -f examples/nginx-pod-toleration.yaml
+$ kubectl create -f examples/nginx-pod-tolerations.yaml
 ```
 
 Note that if you have other nodes in your cluster then this Pod may not
