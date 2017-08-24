@@ -61,7 +61,7 @@ export async function Synchronize(client: api.Core_v1Api, startTime: Date, rsrcC
             
             for (let container of pod.spec.containers) {
                 let ports = new Array<Object>();
-                let envs = new Array<Object>();                
+                let envs = new Array<Object>();
                 let commands = new Array<String>();
                 if (container.ports) {
                     for (let port of container.ports) {
