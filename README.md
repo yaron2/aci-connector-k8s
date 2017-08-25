@@ -85,6 +85,20 @@ Edit the `examples/aci-connector.yaml` and input environment variables using the
 - AZURE_TENANT_ID: insert `tenant`
 - AZURE_SUBSCRIPTION_ID: insert `subscriptionId`
 
+### Confirm Microsoft.ContainerInstance provider is registered
+
+```console
+$ az provider list -o table | grep ContainerInstance
+Microsoft.ContainerInstance             NotRegistered
+```
+If it is not registered, register it by running the following command.
+```console
+$ az provider register -n Microsoft.ContainerInstance
+$ az provider list -o table | grep ContainerInstance
+Microsoft.ContainerInstance             Registered
+```
+
+
 ### Install the ACI Connector
 
 ```console
