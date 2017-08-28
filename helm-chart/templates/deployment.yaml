@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}
+  namespace: default
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+    spec:
+      containers:
+      - name: {{ template "fullname" . }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: AZURE_CLIENT_ID
+          value: {{ .Values.env.azureclientid }}
+        - name: AZURE_CLIENT_KEY
+          value: {{ .Values.env.azureclientkey }}
+        - name: AZURE_TENANT_ID
+          value: {{ .Values.env.azuretenantid }}
+        - name: AZURE_SUBSCRIPTION_ID
+          value: {{ .Values.env.azuresubscriptionid }}
+        - name: ACI_RESOURCE_GROUP
+          value: {{ .Values.env.aciresourcegroup }}

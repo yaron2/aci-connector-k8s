@@ -1,0 +1,21 @@
+{{- if and .Values.env.azureclientid .Values.env.azureclientkey .Values.env.azuretenantid .Values.env.azuresubscriptionid .Values.env.aciresourcegroup -}}
+
+The aci-connector is getting deployed on your cluster.
+
+To verify that aci-connector has started, run:
+
+  kubectl --namespace={{ .Release.Namespace }} get pods -l "app={{ template "fullname" . }}"
+
+{{- else -}}
+##############################################################################
+####  ERROR: You are missing required values in the values.yaml file.     ####
+##############################################################################
+
+This deployment will be incomplete until all the required fields in the values.yaml file have been provided.
+
+To update, run:
+
+    helm upgrade {{ .Release.Name }} \
+    --set env.azureclientid=YOUR-AZURECLIENTID-HERE,env.azureclientkey=YOUR-AZURECLIENTKEY-HERE,env.azuretenantid=YOUR-AZURETENANTID-HERE,env.azuresubscriptionid=YOUR-AZURESUBSCRIPTIONID-HERE,env.aciresourcegroup=YOUR-ACIRESOURCEGROUP-HERE
+
+{{- end }}
