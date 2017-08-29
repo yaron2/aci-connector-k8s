@@ -65,10 +65,10 @@ Name                                             CloudName    SubscriptionId    
 Pay-As-You-Go                                    AzureCloud   12345678-9012-3456-7890-123456789012  Enabled  True
 ```
 
-Use `az` to create a Service Principal that can perform operations on your resource group:
+Use `az` to create a Service Principal that can perform operations on your subscription:
 
 ```console
-$ az ad sp create-for-rbac --role=Contributor --scopes /subscriptions/<subscriptionId>/resourceGroups/aci-test
+$ az ad sp create-for-rbac --role=Contributor --scopes /subscriptions/<subscriptionId>/
 {
   "appId": "<redacted>",
   "displayName": "azure-cli-2017-07-19-19-13-19",
