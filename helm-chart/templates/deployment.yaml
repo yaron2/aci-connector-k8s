@@ -25,3 +25,4 @@ spec:
           value: {{ .Values.env.azuresubscriptionid }}
         - name: ACI_RESOURCE_GROUP
           value: {{ .Values.env.aciresourcegroup }}
+          
