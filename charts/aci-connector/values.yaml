@@ -8,4 +8,5 @@ env:
   azuretenantid:
   azuresubscriptionid:
   aciresourcegroup:
+  aciregion:
   
