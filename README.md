@@ -154,6 +154,15 @@ necessarily schedule onto the Azure Container Instances.
 
 To force a Pod onto Azure Container Instances, you can either explicitly specify the NodeName as in the first example, or you can delete all of the other nodes in your cluster using `kubectl delete nodes <node-name>`. A third option is to fill your cluster with other workloads, then the scheduler will be obligated to schedule work to the Azure Container Instance API.
 
+## Using Canary builds
+
+"Canary" builds are versions of the connector that are built periodically from the latest master branch. They are not official releases, and may not be stable. However, they offer the opportunity to test the cutting edge features.
+
+To use the latest canary release you can patch the aci-connector deployment to update the container tag using the following command:
+```console
+$ kubectl set image deploy/aci-connector aci-connector=microsoft/aci-connector-k8s:canary
+```
+
 ## Development Instructions
 
 ### Local Development
