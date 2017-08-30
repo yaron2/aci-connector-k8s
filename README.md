@@ -114,7 +114,7 @@ k8s-agentpool1-31868821-2   Ready                      5d        v1.7.0
 k8s-master-31868821-0       Ready,SchedulingDisabled   5d        v1.7.0
 ```
 
-### Install the ACI Connector with Helm
+### Install the ACI Connector with Helm (optional)
 
 ```console
 $ helm install --name my-release ./charts/aci-connector
