@@ -52,10 +52,12 @@ export async function Synchronize(client: api.Core_v1Api, startTime: Date, rsrcC
                 }
                 if (container.env) {
                     for (let env of container.env) {
-                        envs.push({
-                            name: env.name,
-                            value: env.value
-                        })
+                        if (env.value) {
+                            envs.push({
+                                name: env.name,
+                                value: env.value
+                            })
+                        }
                     }
                 }
                 if (container.command) {
@@ -86,7 +88,7 @@ export async function Synchronize(client: api.Core_v1Api, startTime: Date, rsrcC
                     osType: "linux",
                     containers: containers,
                     ipAddress: {
-		        // TODO: use a tag to make Public IP optional.
+                        // TODO: use a tag to make Public IP optional.
                         type: "Public",
                         ports: cPorts
                     }
