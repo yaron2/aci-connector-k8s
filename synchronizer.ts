@@ -108,6 +108,7 @@ export async function Synchronize(client: api.Core_v1Api, startTime: Date, rsrcC
                 properties: {
                     osType: "linux",
                     containers: containers,
+                    imageRegistryCredentials: imageRegistryCredentials,
                     ipAddress: {
 		        // TODO: use a tag to make Public IP optional.
                         type: "Public",
@@ -117,8 +118,7 @@ export async function Synchronize(client: api.Core_v1Api, startTime: Date, rsrcC
                 tags: {
                     "orchestrator": "kubernetes"
                 },
-                location: region,
-                imageRegistryCredentials: imageRegistryCredentials
+                location: region
             }
             await rsrcClient.resources.createOrUpdate(resourceGroup,
                 "Microsoft.ContainerInstance", "",
