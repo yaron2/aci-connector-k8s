@@ -116,8 +116,18 @@ k8s-master-31868821-0       Ready,SchedulingDisabled   5d        v1.7.0
 
 ### Install the ACI Connector with Helm (optional)
 
+First, make sure to fill the values in the values.yaml file located in the /charts/aci-connector directory.
+
+You can then install the chart:
+
 ```console
 $ helm install --name my-release ./charts/aci-connector
+```
+
+There's also the option to set the values from the command line. This will override any values in the values.yaml file:
+
+```console
+$ helm install --name my-release --set env.azureclientid=YOUR-AZURECLIENTID,env.azureclientkey=YOUR-AZURECLIENTKEY,env.azuretenantid=YOUR-AZURETENANTID,env.azuresubscriptionid=YOUR-AZURESUBSCRIPTIONID,env.aciresourcegroup=YOUR-ACIRESOURCEGROUP,env.aciregion=YOUR-ACI-REGION ./charts/aci-connector
 ```
 
 ### Install the NGINX example
