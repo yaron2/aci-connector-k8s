@@ -1,4 +1,4 @@
-{{- if and .Values.env.azureclientid .Values.env.azureClientKey .Values.env.azureTenantId .Values.env.azureSubscriptionId .Values.env.aciResourceGroup -}}
+{{- if and .Values.env.azureClientId .Values.env.azureClientKey .Values.env.azureTenantId .Values.env.azureSubscriptionId .Values.env.aciResourceGroup -}}
 
 The aci-connector is getting deployed on your cluster.
 
