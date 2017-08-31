@@ -35,21 +35,21 @@ export async function Synchronize(client: api.Core_v1Api, startTime: Date, rsrcC
                 for (let secret of pod.spec.imagePullSecrets) {            
                     let response = await client.readNamespacedSecret(secret.name, pod.metadata.namespace);
                     let imagePullSecret = response.body as api.V1Secret;
-                    var repoCfgDataB64 = imagePullSecret.data['.dockercfg'] 
-                    var repoCfgData = Buffer.from(repoCfgDataB64, 'base64').toString("ascii")
-                    var repoCfg = JSON.parse(repoCfgData)
-                    console.log(repoCfg) 
-                            /*
-                            imageRegistryCredentials.push(
-                                {
-                                    server: data.repo,
-                                    username: data.username,
-                                    password: data.password 
-                                }
-                            );
-                            */
-                        }
-                    }
+                    // TODO: Error handling if this isn't a secret that containers a .dockercfg key
+                    let repoCfgDataB64 = imagePullSecret.data['.dockercfg']
+                    // TODO: Error handling if this isn't base64
+                    let repoCfgData = Buffer.from(repoCfgDataB64, 'base64').toString("ascii")
+                    // TODO: Error handling if this isn't a JSON object
+                    let repoCfg = JSON.parse(repoCfgData)
+                    let repoName = Object.keys(repoCfg)[0]
+
+                    imageRegistryCredentials.push({
+                        server: repoName,
+                        username: repoCfg[repoName]['username'],
+                        password: repoCfg[repoName]['password'] 
+                    })
+                }
+            }
             for (let container of pod.spec.containers) {
                 let ports = new Array<Object>();
                 let envs = new Array<Object>();
@@ -120,6 +120,7 @@ export async function Synchronize(client: api.Core_v1Api, startTime: Date, rsrcC
                 location: region,
                 imageRegistryCredentials: imageRegistryCredentials
             }
+            console.log(group)
             await rsrcClient.resources.createOrUpdate(resourceGroup,
                 "Microsoft.ContainerInstance", "",
                 "containerGroups", pod.metadata.name,
