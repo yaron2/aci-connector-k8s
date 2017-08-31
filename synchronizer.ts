@@ -120,7 +120,6 @@ export async function Synchronize(client: api.Core_v1Api, startTime: Date, rsrcC
                 location: region,
                 imageRegistryCredentials: imageRegistryCredentials
             }
-            console.log(group)
             await rsrcClient.resources.createOrUpdate(resourceGroup,
                 "Microsoft.ContainerInstance", "",
                 "containerGroups", pod.metadata.name,
