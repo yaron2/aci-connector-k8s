@@ -142,7 +142,7 @@ $ helm install --name my-release ./charts/aci-connector
 There's also the option to set the values from the command line. This will override any values in the values.yaml file:
 
 ```console
-$ helm install --name my-release --set env.azureclientid=YOUR-AZURECLIENTID,env.azureclientkey=YOUR-AZURECLIENTKEY,env.azuretenantid=YOUR-AZURETENANTID,env.azuresubscriptionid=YOUR-AZURESUBSCRIPTIONID,env.aciresourcegroup=YOUR-ACIRESOURCEGROUP,env.aciregion=YOUR-ACI-REGION ./charts/aci-connector
+$ helm install --name my-release --set env.azureClientId=YOUR-AZURECLIENTID,env.azureClientKey=YOUR-AZURECLIENTKEY,env.azureTenantId=YOUR-AZURETENANTID,env.azureSubscriptionId=YOUR-AZURESUBSCRIPTIONID,env.aciResourceGroup=YOUR-ACIRESOURCEGROUP,env.aciRegion=YOUR-ACI-REGION ./charts/aci-connector
 ```
 
 ### Install the NGINX example
