@@ -16,15 +16,14 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
         - name: AZURE_CLIENT_ID
-          value: {{ .Values.env.azureclientid }}
+          value: {{ .Values.env.azureClientId }}
         - name: AZURE_CLIENT_KEY
-          value: {{ .Values.env.azureclientkey }}
+          value: {{ .Values.env.azureClientKey }}
         - name: AZURE_TENANT_ID
-          value: {{ .Values.env.azuretenantid }}
+          value: {{ .Values.env.azureTenantId }}
         - name: AZURE_SUBSCRIPTION_ID
-          value: {{ .Values.env.azuresubscriptionid }}
+          value: {{ .Values.env.azureSubscriptionId }}
         - name: ACI_RESOURCE_GROUP
-          value: {{ .Values.env.aciresourcegroup }}
+          value: {{ .Values.env.aciResourceGroup }}
         - name: ACI_REGION
-          value: {{ default "westus" .Values.env.aciregion }}
-          
+          value: {{ default "westus" .Values.env.aciRegion }}
