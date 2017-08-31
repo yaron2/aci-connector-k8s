@@ -1,12 +1,11 @@
 image:
   repository: microsoft/aci-connector-k8s
   tag: latest
-  pullPolicy: always
+  pullPolicy: Always
 env:
-  azureclientid: 
-  azureclientkey:
-  azuretenantid:
-  azuresubscriptionid:
-  aciresourcegroup:
-  aciregion:
-  
+  azureClientId: 
+  azureClientKey:
+  azureTenantId:
+  azureSubscriptionId:
+  aciResourceGroup:
+  aciRegion:
