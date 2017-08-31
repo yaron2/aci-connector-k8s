@@ -29,36 +29,27 @@ export async function Synchronize(client: api.Core_v1Api, startTime: Date, rsrcC
             let cPorts = new Array<Object>();
 
             let imageRegistryCredentials = new Array<Object>();
+            let secret = new Array<Object>();
             
             if (pod.spec.imagePullSecrets != null) {
-                let secrets = await client.listNamespacedSecret('default');
-                for (let secret of secrets.body.items) {
-                    if (secret.metadata.name == pod.spec.imagePullSecrets.name && secret.metadata.type == "kubernetes.io/dockercfg") {
-                        /* 
-                            Grab secret data {"yourprivateregistry.com":{"username":"janedoe","password":"xxxxxxxxxxx","email":"jdoe@example.com","auth":"c3R...zE2"}}
-                            base64 -D
-                            Repo, username and password
-                            
-                            Credential json blob for ACI
-                            "imageRegistryCredentials": [
+                for (let secret of pod.spec.imagePullSecrets) {            
+                    let response = await client.readNamespacedSecret(secret.name, pod.metadata.namespace);
+                    let imagePullSecret = response.body as api.V1Secret;
+                    var repoCfgDataB64 = imagePullSecret.data['.dockercfg'] 
+                    var repoCfgData = Buffer.from(repoCfgDataB64, 'base64').toString("ascii")
+                    var repoCfg = JSON.parse(repoCfgData)
+                    console.log(repoCfg) 
+                            /*
+                            imageRegistryCredentials.push(
                                 {
-                                "server": "imageRegistryLoginServer",
-                                "username": "imageRegistryUsername",
-                                "password": "imageRegistryPassword"
+                                    server: data.repo,
+                                    username: data.username,
+                                    password: data.password 
                                 }
-                        ]
-                        */
-                        imageRegistryCredentials.push(
-                            {
-                                server: data.repo,
-                                username: data.username,
-                                password: data.password 
-                            }
-                        );
+                            );
+                            */
+                        }
                     }
-                }
-            }
-            
             for (let container of pod.spec.containers) {
                 let ports = new Array<Object>();
                 let envs = new Array<Object>();
@@ -127,7 +118,7 @@ export async function Synchronize(client: api.Core_v1Api, startTime: Date, rsrcC
                     "orchestrator": "kubernetes"
                 },
                 location: region,
-                imageRegistryCredentials: imageRegistryCredentials,
+                imageRegistryCredentials: imageRegistryCredentials
             }
             await rsrcClient.resources.createOrUpdate(resourceGroup,
                 "Microsoft.ContainerInstance", "",
