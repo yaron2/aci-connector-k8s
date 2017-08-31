@@ -1,7 +1,7 @@
 image:
   repository: microsoft/aci-connector-k8s
   tag: latest
-  pullPolicy: Always
+  pullPolicy: always
 env:
   azureclientid: 
   azureclientkey:
