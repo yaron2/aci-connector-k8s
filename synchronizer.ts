@@ -27,6 +27,29 @@ export async function Synchronize(client: api.Core_v1Api, startTime: Date, rsrcC
             }
             let containers = new Array<Object>();
             let cPorts = new Array<Object>();
+
+            let imageRegistryCredentials = new Array<Object>();
+            let secret = new Array<Object>();
+            
+            if (pod.spec.imagePullSecrets != null) {
+                for (let secret of pod.spec.imagePullSecrets) {            
+                    let response = await client.readNamespacedSecret(secret.name, pod.metadata.namespace);
+                    let imagePullSecret = response.body as api.V1Secret;
+                    // TODO: Error handling if this isn't a secret that containers a .dockercfg key
+                    let repoCfgDataB64 = imagePullSecret.data['.dockercfg']
+                    // TODO: Error handling if this isn't base64
+                    let repoCfgData = Buffer.from(repoCfgDataB64, 'base64').toString("ascii")
+                    // TODO: Error handling if this isn't a JSON object
+                    let repoCfg = JSON.parse(repoCfgData)
+                    let repoName = Object.keys(repoCfg)[0]
+
+                    imageRegistryCredentials.push({
+                        server: repoName,
+                        username: repoCfg[repoName]['username'],
+                        password: repoCfg[repoName]['password'] 
+                    })
+                }
+            }
             for (let container of pod.spec.containers) {
                 let ports = new Array<Object>();
                 let envs = new Array<Object>();
@@ -87,6 +110,7 @@ export async function Synchronize(client: api.Core_v1Api, startTime: Date, rsrcC
                 properties: {
                     osType: "linux",
                     containers: containers,
+                    imageRegistryCredentials: imageRegistryCredentials,
                     ipAddress: {
                         // TODO: use a tag to make Public IP optional.
                         type: "Public",
