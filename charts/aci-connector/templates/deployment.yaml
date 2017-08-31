@@ -16,13 +16,25 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
         - name: AZURE_CLIENT_ID
-          value: {{ .Values.env.azureClientId }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "fullname" . }}
+              key: azure-sp-client-id
         - name: AZURE_CLIENT_KEY
-          value: {{ .Values.env.azureClientKey }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "fullname" . }}
+              key: azure-sp-client-key
         - name: AZURE_TENANT_ID
-          value: {{ .Values.env.azureTenantId }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "fullname" . }}
+              key: azure-sp-tenant-id
         - name: AZURE_SUBSCRIPTION_ID
-          value: {{ .Values.env.azureSubscriptionId }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "fullname" . }}
+              key: azure-subscription-id
         - name: ACI_RESOURCE_GROUP
           value: {{ .Values.env.aciResourceGroup }}
         - name: ACI_REGION
