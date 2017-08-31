@@ -1,4 +1,4 @@
-{{- if and .Values.env.azureclientid .Values.env.azureclientkey .Values.env.azuretenantid .Values.env.azuresubscriptionid .Values.env.aciresourcegroup -}}
+{{- if and .Values.env.azureclientid .Values.env.azureClientKey .Values.env.azureTenantId .Values.env.azureSubscriptionId .Values.env.aciResourceGroup -}}
 
 The aci-connector is getting deployed on your cluster.
 
@@ -16,6 +16,6 @@ This deployment will be incomplete until all the required fields in the values.y
 To update, run:
 
     helm upgrade {{ .Release.Name }} \
-    --set env.azureclientid=YOUR-AZURECLIENTID-HERE,env.azureclientkey=YOUR-AZURECLIENTKEY-HERE,env.azuretenantid=YOUR-AZURETENANTID-HERE,env.azuresubscriptionid=YOUR-AZURESUBSCRIPTIONID-HERE,env.aciresourcegroup=YOUR-ACIRESOURCEGROUP-HERE
+    --set env.azureClientId=<YOUR-AZURECLIENTID-HERE>,env.azureClientKey=<YOUR-AZURECLIENTKEY-HERE>,env.azureTenantId=<YOUR-AZURETENANTID-HERE>,env.azureSubscriptionId=<YOUR-AZURESUBSCRIPTIONID-HERE>,env.aciResourceGroup=<YOUR-ACIRESOURCEGROUP-HERE>
 
 {{- end }}
